@@ -27,7 +27,8 @@ func Run(configPath string) error {
 	mux := http.NewServeMux()
 	mux.Handle("/tinyid/id/nextId", nextIdHandler())
 	mux.Handle("/tinyid/id/nextIdSimple", nextIdSimpleHandler())
-	mux.Handle("/tinyid/id/segmentId", segmentIdHandler())
+	mux.Handle("/tinyid/id/nextSegmentIdSimple", nextSegmentIdSimpleHandler())
+	mux.Handle("/tinyid/id/showSegmentId", segmentIdHandler())
 	internal.Logf("tinyid server start on %s", config.GetString("server"))
 	if err := http.ListenAndServe(config.GetString("server"), mux); err != nil {
 		return err

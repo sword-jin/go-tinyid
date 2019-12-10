@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/rrylee/go-tinyid/constant"
 	"github.com/rrylee/go-tinyid/server/factory"
+	"github.com/rrylee/go-tinyid/server/service"
 	"net/http"
 	"strconv"
 )
@@ -34,13 +35,7 @@ func nextIdHandler() http.Handler {
 			return
 		}
 
-		defer func() {
-			if err := recover(); err != nil {
-				e := err.(error)
-				handleError(e, w)
-				return
-			}
-		}()
+		defer recoverError(w)
 
 		idGenerator, err := factory.GetIdGenerator(bizType)
 		if err != nil {
@@ -77,6 +72,14 @@ func nextIdHandler() http.Handler {
 	})
 }
 
+func recoverError(w http.ResponseWriter) {
+	if err := recover(); err != nil {
+		e := err.(error)
+		fmt.Fprint(w, e.Error())
+		return
+	}
+}
+
 func nextIdSimpleHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		bizType := r.URL.Query().Get("bizType")
@@ -86,13 +89,7 @@ func nextIdSimpleHandler() http.Handler {
 		}
 		batchSize := getBatchSize(r)
 
-		defer func() {
-			if err := recover(); err != nil {
-				e := err.(error)
-				fmt.Fprint(w, e.Error())
-				return
-			}
-		}()
+		defer recoverError(w)
 
 		idGenerator, err := factory.GetIdGenerator(bizType)
 		if err != nil {
@@ -166,11 +163,24 @@ func segmentIdHandler() http.Handler {
 		}
 		mapping := map[string]interface{}{
 			"current": curStr,
-			"next": nextStr,
+			"next":    nextStr,
 		}
 		s, _ := json.Marshal(mapping)
 		w.Header().Set("Content-type", "application/json")
 		fmt.Fprintln(w, string(s))
+	})
+}
+
+func nextSegmentIdSimpleHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		bizType := r.URL.Query().Get("bizType")
+		segmentIDService := &service.DbSegmentIdService{}
+		next, err := segmentIDService.GetNextSegmentId(bizType)
+		if err != nil {
+			handleError(err, w)
+			return
+		}
+		fmt.Fprintln(w, fmt.Sprintf("%d,%d,%d,%d,%d", next.CurrentId(), next.LoadingId(), next.MaxId(), next.Delta(), next.Remainder()))
 	})
 }
 
