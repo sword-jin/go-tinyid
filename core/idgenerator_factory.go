@@ -11,7 +11,7 @@ type IdGeneratorFactory struct {
 func NewIdGeneratorFactory(createGenerator func(bizType string) (IdGenerator, error)) *IdGeneratorFactory {
 	return &IdGeneratorFactory{
 		CreateGenerator: createGenerator,
-		generators: make(map[string]IdGenerator),
+		generators:      make(map[string]IdGenerator),
 	}
 }
 
