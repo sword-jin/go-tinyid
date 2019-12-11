@@ -77,7 +77,7 @@ func (s *SegmentId) init() {
 		s.mu.Unlock()
 		return
 	}
-	var i int64 = 0
+	var i int64
 	for i = 0; i <= s.delta; i++ {
 		id = atomic.AddInt64(&s.currentId, 1)
 		if id%s.delta == s.remainder {

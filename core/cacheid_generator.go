@@ -72,7 +72,7 @@ func (generator *CacheIdGenerator) GetCurrentSegmentId(bizType string) *entity.S
 }
 
 func (generator *CacheIdGenerator) GetNextSegmentId(bizType string) *entity.SegmentId {
-	return generator.GetNextSegmentId(bizType)
+	return generator.next
 }
 
 func (generator *CacheIdGenerator) NextBatchIds(size int64) ([]int64, error) {

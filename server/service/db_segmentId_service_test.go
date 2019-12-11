@@ -7,7 +7,10 @@ import (
 )
 
 func TestDbSegmentIdService_GetNextSegmentId(t *testing.T) {
-	mysql.Init([]string{"root:root@tcp(127.0.0.1:3306)/test"})
+	err := mysql.Init([]string{"root:root@tcp(127.0.0.1:3306)/test"})
+	if err != nil {
+		t.Error(err)
+	}
 	dbSegmentIdService := DbSegmentIdService{}
 	for i := 0; i < 1; i++ {
 		fmt.Println(dbSegmentIdService.GetNextSegmentId("test"))

@@ -11,7 +11,10 @@ import (
 )
 
 func TestQueryByBizType(t *testing.T) {
-	mysql.Init([]string{"root:root@tcp(127.0.0.1:3306)/test"})
+	err := mysql.Init([]string{"root:root@tcp(127.0.0.1:3306)/test"})
+	if err != nil {
+		t.Error(err)
+	}
 	got, err := QueryByBizType(mysql.GetConn(), "test")
 	if err != nil {
 		t.Errorf("出现错误, err=%v", err)
@@ -34,7 +37,10 @@ func TestQueryByBizType(t *testing.T) {
 
 func TestUpdateMaxId(t *testing.T) {
 	internal.Logger = log.New(os.Stdout, "[test]", 0)
-	mysql.Init([]string{"root:root@tcp(127.0.0.1:3306)/test"})
+	err := mysql.Init([]string{"root:root@tcp(127.0.0.1:3306)/test"})
+	if err != nil {
+		t.Error(err)
+	}
 	updatedNum := UpdateMaxId(mysql.GetConn(), 1, 100000, 1, 1)
 	fmt.Println(updatedNum)
 }
