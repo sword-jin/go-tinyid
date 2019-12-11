@@ -24,7 +24,35 @@ func main() {
 }
 ```
 
-### http call
+### client 接入
+
+```go
+package main
+
+import (
+	"github/rrylee/go-tinyid/internal"
+	"github/rrylee/go-tinyid/client"
+	"github/rrylee/go-tinyid/client/config"
+	"log"
+	"os"
+)
+
+func main() {
+	internal.Logger = log.New(os.Stdout, "[test]", 0)
+	client.Init(&config.Config{
+		TinyIdServer: []string{"http://127.0.0.1:8999"},
+		TinyIdToken:  "test",
+		Timeout:      1 * time.Second,
+	})
+
+	client := &client.TinyIdClient{}
+	for i := 0; i < 100; i++ {
+		fmt.Println(client.NextId("test"))
+	}
+}
+```
+
+### http 接入
 
 ```bash
 $curl http://localhost:8999/tinyid/id/nextId?bizType=test&batchSize=10

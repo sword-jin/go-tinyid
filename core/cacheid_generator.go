@@ -21,7 +21,7 @@ type CacheIdGenerator struct {
 }
 
 func (generator *CacheIdGenerator) loadCurrent() error {
-	internal.Logf("loadCurrent start.")
+	internal.Logf("loadCurrent start")
 	generator.mu.Lock()
 	if generator.current == nil || !generator.current.Useful() {
 		if generator.next != nil {
@@ -38,6 +38,7 @@ func (generator *CacheIdGenerator) loadCurrent() error {
 			}
 		}
 	}
+	internal.Logf("loadCurrent end")
 	generator.mu.Unlock()
 	return nil
 }
@@ -66,12 +67,12 @@ func (generator *CacheIdGenerator) NextId() (int64, error) {
 	}
 }
 
-func(generator *CacheIdGenerator) GetCurrentSegmentId(bizType string) *entity.SegmentId {
+func (generator *CacheIdGenerator) GetCurrentSegmentId(bizType string) *entity.SegmentId {
 	return generator.current
 }
 
-func(generator *CacheIdGenerator) GetNextSegmentId(bizType string) *entity.SegmentId {
-	return generator.next
+func (generator *CacheIdGenerator) GetNextSegmentId(bizType string) *entity.SegmentId {
+	return generator.GetNextSegmentId(bizType)
 }
 
 func (generator *CacheIdGenerator) NextBatchIds(size int64) ([]int64, error) {

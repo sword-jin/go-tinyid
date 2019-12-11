@@ -16,6 +16,26 @@ type SegmentId struct {
 	remainder int64
 }
 
+func (s *SegmentId) CurrentId() int64 {
+	return s.currentId
+}
+
+func (s *SegmentId) Delta() int64 {
+	return s.delta
+}
+
+func (s *SegmentId) Remainder() int64 {
+	return s.remainder
+}
+
+func (s *SegmentId) LoadingId() int64 {
+	return s.loadingId
+}
+
+func (s *SegmentId) MaxId() int64 {
+	return s.maxId
+}
+
 func NewSegmentId(maxId, currentId, delta, remainder, loadingId int64) *SegmentId {
 	return &SegmentId{
 		maxId:     maxId,
