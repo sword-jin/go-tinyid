@@ -24,6 +24,7 @@ func TestCacheIdGenerator_NextId(t *testing.T) {
 }
 
 type TestService struct{}
+
 func (t TestService) GetNextSegmentId(bizType string) (*entity.SegmentId, error) {
 	return entity.NewSegmentId(1000, 1, 5, 0, 800), nil
 }

@@ -96,4 +96,3 @@ func (s *SegmentId) Useful() bool {
 func (s *SegmentId) String() string {
 	return fmt.Sprintf("maxId=%d, loadingId=%d, currentId=%d, delta=%d, remainder=%d", s.maxId, s.loadingId, s.currentId, s.delta, s.remainder)
 }
-

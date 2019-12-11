@@ -1,10 +1,10 @@
 package http
 
 import (
-	"github.com/spf13/viper"
 	"github.com/rrylee/go-tinyid/internal"
 	"github.com/rrylee/go-tinyid/server/dbconnection/mysql"
 	"github.com/rrylee/go-tinyid/server/service"
+	"github.com/spf13/viper"
 	"net/http"
 )
 

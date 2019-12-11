@@ -38,5 +38,5 @@ func (d DbSegmentIdService) GetNextSegmentId(bizType string) (*coreEntity.Segmen
 
 func convertSegmentId(info *daoEntity.TinyIdInfo) *coreEntity.SegmentId {
 	currentId := info.MaxId - info.Step
-	return coreEntity.NewSegmentId(info.MaxId, currentId, info.Delta, info.Remainder, currentId+info.Step*constant.LoadingPercent / 100)
+	return coreEntity.NewSegmentId(info.MaxId, currentId, info.Delta, info.Remainder, currentId+info.Step*constant.LoadingPercent/100)
 }

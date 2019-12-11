@@ -23,4 +23,3 @@ func init() {
 		Message: "sys error",
 	}
 }
-
